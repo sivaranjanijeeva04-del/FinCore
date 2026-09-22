@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>FinCore - Open Account</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f6f9;
+            color: #222;
+        }
+
+        .navbar {
+            background: #172033;
+            color: white;
+            padding: 18px 35px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .back-link {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 35px;
+            border-radius: 14px;
+
+            box-shadow:
+                0 5px 20px rgba(0, 0, 0, 0.07);
+        }
+
+        .header {
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 27px;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #6b7280;
+            font-size: 14px;
+        }
+        .info-box {
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    color: #1e40af;
+    padding: 15px 18px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.info-box strong {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.info-box p {
+    font-size: 13px;
+    margin: 0;
+}
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px 14px;
+
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+
+            outline: none;
+            font-size: 14px;
+            background: white;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #2563eb;
+        }
+
+        .full-width {
+            grid-column: span 2;
+        }
+
+        .help-text {
+            margin-top: 6px;
+            font-size: 12px;
+            color: #777;
+        }
+
+        .error-box {
+            background: #fee2e2;
+            color: #991b1b;
+
+            padding: 12px 15px;
+
+            border-radius: 8px;
+
+            margin-bottom: 20px;
+
+            font-size: 14px;
+        }
+
+        .button-area {
+            margin-top: 30px;
+
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+
+        .cancel-btn,
+        .submit-btn {
+            padding: 12px 22px;
+
+            border-radius: 8px;
+
+            text-decoration: none;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            border: none;
+
+            cursor: pointer;
+        }
+
+        .cancel-btn {
+            background: #e5e7eb;
+            color: #374151;
+        }
+
+        .submit-btn {
+            background: #172033;
+            color: white;
+        }
+
+        .submit-btn:hover {
+            background: #25334d;
+        }
+
+        .cancel-btn:hover {
+            background: #d1d5db;
+        }
+
+        @media (max-width: 700px) {
+
+            .container {
+                margin: 20px auto;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .full-width {
+                grid-column: span 1;
+            }
+
+            .button-area {
+                flex-direction: column;
+            }
+
+            .cancel-btn,
+            .submit-btn {
+                width: 100%;
+                text-align: center;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- NAVBAR -->
+
+    <div class="navbar">
+
+        <div class="logo">
+            FinCore
+        </div>
+
+        <a href="/" class="back-link">
+            ← Dashboard
+        </a>
+
+    </div>
+
+
+    <!-- MAIN -->
+
+    <div class="container">
+
+        <div class="card">
+
+
+            <div class="header">
+
+                <h1>
+                    Open Financial Account
+                </h1>
+
+                <p>
+                    Create a new financial account for a
+                    verified customer.
+                </p>
+
+            </div>
+
+
+            <!-- FORM ERRORS -->
+
+            {% if form.non_field_errors %}
+
+                <div class="error-box">
+
+                    {% for error in form.non_field_errors %}
+
+                        <div>
+                            {{ error }}
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+            {% endif %}
+
+    <div class="info-box">
+    <strong>KYC Verification Required</strong>
+    <p>
+        Only customers with a Verified KYC status
+        can open a financial account.
+    </p>
+</div>
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+
+                <div class="form-grid">
+
+
+                    <!-- CUSTOMER -->
+
+                    <div class="form-group">
+
+                        <label for="{{ form.customer.id_for_label }}">
+                            Customer
+                        </label>
+
+                        {{ form.customer }}
+
+                    </div>
+
+
+                    <!-- ACCOUNT TYPE -->
+
+                    <div class="form-group">
+
+                        <label for="{{ form.account_type.id_for_label }}">
+                            Account Type
+                        </label>
+
+                        {{ form.account_type }}
+
+                    </div>
+
+
+                    <!-- INITIAL BALANCE -->
+
+                    <div class="form-group">
+
+                        <label for="{{ form.balance.id_for_label }}">
+                            Initial Balance
+                        </label>
+
+                        {{ form.balance }}
+
+                        <span class="help-text">
+                            Enter the opening balance.
+                        </span>
+
+                    </div>
+
+
+                    <!-- STATUS -->
+
+                    <div class="form-group">
+
+                        <label for="{{ form.account_status.id_for_label }}">
+                            Account Status
+                        </label>
+
+                        {{ form.account_status }}
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- BUTTONS -->
+
+                <div class="button-area">
+
+                    <a
+                        href="/"
+                        class="cancel-btn"
+                    >
+                        Cancel
+                    </a>
+
+
+                    <button
+                        type="submit"
+                        class="submit-btn"
+                    >
+                        Open Account
+                    </button>
+
+                </div>
+
+
+            </form>
+
+
+        </div>
+
+    </div>
+
+
+</body>
+
+</html>

@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Transaction History | FinCore</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f7fb;
+            color: #1f2937;
+        }
+
+        .navbar {
+            background: #111827;
+            color: white;
+
+            padding: 18px 35px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            color: white;
+            background: #374151;
+
+            padding: 9px 16px;
+
+            border-radius: 7px;
+
+            font-size: 13px;
+        }
+
+        .container {
+            max-width: 1300px;
+
+            margin: 40px auto;
+
+            padding: 0 20px;
+        }
+
+        .header {
+            margin-bottom: 25px;
+        }
+
+        .header-top {
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            gap: 15px;
+
+            flex-wrap: wrap;
+        }
+
+        .header h1 {
+            font-size: 28px;
+
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #6b7280;
+        }
+
+        .new-btn {
+            text-decoration: none;
+
+            background: #2563eb;
+
+            color: white;
+
+            padding: 11px 18px;
+
+            border-radius: 7px;
+
+            font-size: 13px;
+
+            font-weight: bold;
+        }
+
+        .new-btn:hover {
+            background: #1d4ed8;
+        }
+
+        /* SEARCH */
+
+        .search-box {
+            background: white;
+
+            padding: 20px;
+
+            border-radius: 10px;
+
+            margin-bottom: 25px;
+
+            box-shadow:
+                0 3px 12px rgba(0,0,0,0.06);
+        }
+
+        .search-box form {
+            display: flex;
+
+            gap: 10px;
+        }
+
+        .search-box input {
+            flex: 1;
+
+            padding: 12px;
+
+            border: 1px solid #d1d5db;
+
+            border-radius: 7px;
+
+            outline: none;
+
+            font-size: 14px;
+        }
+
+        .search-box select {
+    padding: 12px;
+
+    border: 1px solid #d1d5db;
+
+    border-radius: 7px;
+
+    outline: none;
+
+    background: white;
+
+    font-size: 14px;
+
+    min-width: 170px;
+}
+
+        .search-btn {
+            border: none;
+
+            background: #2563eb;
+
+            color: white;
+
+            padding: 12px 20px;
+
+            border-radius: 7px;
+
+            cursor: pointer;
+
+            font-weight: bold;
+        }
+
+        /* TABLE */
+
+        .table-container {
+            background: white;
+
+            border-radius: 10px;
+
+            overflow-x: auto;
+
+            box-shadow:
+                0 3px 12px rgba(0,0,0,0.06);
+        }
+
+        table {
+            width: 100%;
+
+            border-collapse: collapse;
+
+            min-width: 1000px;
+        }
+
+        th {
+            background: #f9fafb;
+
+            text-align: left;
+
+            padding: 15px;
+
+            font-size: 13px;
+
+            color: #4b5563;
+
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 15px;
+
+            border-top: 1px solid #e5e7eb;
+
+            font-size: 13px;
+
+            white-space: nowrap;
+        }
+
+        tr:hover {
+            background: #fafafa;
+        }
+
+        /* STATUS */
+
+        .status {
+            display: inline-block;
+
+            padding: 6px 11px;
+
+            border-radius: 20px;
+
+            font-size: 12px;
+
+            font-weight: bold;
+        }
+
+        .success {
+            background: #dcfce7;
+
+            color: #166534;
+        }
+
+        .pending {
+            background: #fef3c7;
+
+            color: #92400e;
+        }
+
+        .failed {
+            background: #fee2e2;
+
+            color: #991b1b;
+        }
+
+        /* TRANSACTION TYPE */
+
+        .type {
+            font-weight: bold;
+        }
+
+        .deposit {
+            color: #15803d;
+        }
+
+        .withdrawal {
+            color: #dc2626;
+        }
+
+        .transfer {
+            color: #2563eb;
+        }
+
+        /* EMPTY */
+
+        .empty {
+            text-align: center;
+
+            padding: 40px;
+
+            color: #6b7280;
+        }
+
+        @media (max-width: 700px) {
+
+            .navbar {
+                padding: 15px 20px;
+            }
+
+            .container {
+                margin-top: 25px;
+            }
+
+            .search-box form {
+                flex-direction: column;
+            }
+
+            .search-btn {
+                width: 100%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- NAVBAR -->
+
+<div class="navbar">
+
+    <div class="logo">
+        FinCore
+    </div>
+
+    <a
+        href="/"
+        class="back-btn"
+    >
+        Dashboard
+    </a>
+
+</div>
+
+
+<!-- MAIN -->
+
+<div class="container">
+
+
+    <!-- HEADER -->
+
+    <div class="header">
+
+        <div class="header-top">
+
+            <div>
+
+                <h1>
+                    Transaction History
+                </h1>
+
+                <p>
+                    View all deposits, withdrawals and fund transfers.
+                </p>
+
+            </div>
+
+
+            <a
+                href="/transactions/create/"
+                class="new-btn"
+            >
+                + New Transaction
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- SEARCH -->
+
+    <div class="search-box">
+
+    <form method="GET">
+
+        <input
+            type="text"
+            name="search"
+            value="{{ search }}"
+            placeholder="Search by Transaction ID, Account Number or Customer Name"
+        >
+
+
+        <select name="transaction_type">
+
+            <option value="">
+                All Transaction Types
+            </option>
+
+            <option
+                value="Deposit"
+                {% if transaction_type == "Deposit" %}
+                    selected
+                {% endif %}
+            >
+                Deposit
+            </option>
+
+            <option
+                value="Withdrawal"
+                {% if transaction_type == "Withdrawal" %}
+                    selected
+                {% endif %}
+            >
+                Withdrawal
+            </option>
+
+            <option
+                value="Transfer"
+                {% if transaction_type == "Transfer" %}
+                    selected
+                {% endif %}
+            >
+                Transfer
+            </option>
+
+        </select>
+
+
+        <select name="transaction_status">
+
+            <option value="">
+                All Status
+            </option>
+
+            <option
+                value="Success"
+                {% if transaction_status == "Success" %}
+                    selected
+                {% endif %}
+            >
+                Success
+            </option>
+
+            <option
+                value="Pending"
+                {% if transaction_status == "Pending" %}
+                    selected
+                {% endif %}
+            >
+                Pending
+            </option>
+
+            <option
+                value="Failed"
+                {% if transaction_status == "Failed" %}
+                    selected
+                {% endif %}
+            >
+                Failed
+            </option>
+
+        </select>
+
+
+        <button
+            type="submit"
+            class="search-btn"
+        >
+            Filter
+        </button>
+
+    </form>
+
+</div>
+
+    <!-- TRANSACTION TABLE -->
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Transaction ID
+                    </th>
+
+                    <th>
+                        Source Account
+                    </th>
+
+                    <th>
+                        Customer
+                    </th>
+
+                    <th>
+                        Destination Account
+                    </th>
+
+                    <th>
+                        Type
+                    </th>
+
+                    <th>
+                        Amount
+                    </th>
+
+                    <th>
+                        Status
+                    </th>
+
+                    <th>
+                        Date
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for transaction in transactions %}
+
+                <tr>
+
+
+                    <!-- TRANSACTION ID -->
+
+                    <td>
+
+                        <strong>
+                            {{ transaction.transaction_id }}
+                        </strong>
+
+                    </td>
+
+
+                    <!-- SOURCE ACCOUNT -->
+
+                    <td>
+
+                        {{ transaction.account.account_number }}
+
+                    </td>
+
+
+                    <!-- CUSTOMER -->
+
+                    <td>
+
+                        {{ transaction.account.customer.full_name }}
+
+                        <br>
+
+                        <small style="color:#6b7280;">
+                            {{ transaction.account.customer.customer_id }}
+                        </small>
+
+                    </td>
+
+
+                    <!-- DESTINATION ACCOUNT -->
+
+                    <td>
+
+                        {% if transaction.to_account %}
+
+                            {{ transaction.to_account.account_number }}
+
+                        {% else %}
+
+                            -
+
+                        {% endif %}
+
+                    </td>
+
+
+                    <!-- TRANSACTION TYPE -->
+
+                    <td>
+
+                        {% if transaction.transaction_type == "Deposit" %}
+
+                            <span class="type deposit">
+                                Deposit
+                            </span>
+
+                        {% elif transaction.transaction_type == "Withdrawal" %}
+
+                            <span class="type withdrawal">
+                                Withdrawal
+                            </span>
+
+                        {% else %}
+
+                            <span class="type transfer">
+                                Transfer
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+
+                    <!-- AMOUNT -->
+
+                    <td>
+
+                        <strong>
+                            ₹ {{ transaction.amount }}
+                        </strong>
+
+                    </td>
+
+
+                    <!-- STATUS -->
+
+                    <td>
+
+                        {% if transaction.transaction_status == "Success" %}
+
+                            <span class="status success">
+                                Success
+                            </span>
+
+                        {% elif transaction.transaction_status == "Pending" %}
+
+                            <span class="status pending">
+                                Pending
+                            </span>
+
+                        {% else %}
+
+                            <span class="status failed">
+                                Failed
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+
+                    <!-- DATE -->
+
+                    <td>
+
+                        {{ transaction.created_at|date:"d M Y, h:i A" }}
+
+                    </td>
+
+
+                </tr>
+
+
+                {% empty %}
+
+                <tr>
+
+                    <td
+                        colspan="8"
+                        class="empty"
+                    >
+
+                        No transactions found.
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+</div>
+
+
+</body>
+
+</html>

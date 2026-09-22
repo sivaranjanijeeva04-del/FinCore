@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>KYC Verification | FinCore</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f7fb;
+            color: #1f2937;
+        }
+
+        .navbar {
+            background: #111827;
+            color: white;
+            padding: 18px 35px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            color: white;
+            background: #374151;
+            padding: 9px 16px;
+            border-radius: 7px;
+            font-size: 13px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .header {
+            margin-bottom: 25px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #6b7280;
+        }
+
+        .search-box {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+
+            box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+        }
+
+        .search-box form {
+            display: flex;
+            gap: 10px;
+        }
+
+        .search-box input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 7px;
+            outline: none;
+        }
+
+        .search-btn {
+            border: none;
+            background: #2563eb;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 7px;
+            cursor: pointer;
+        }
+
+        .table-container {
+            background: white;
+            border-radius: 10px;
+            overflow-x: auto;
+
+            box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #f9fafb;
+            text-align: left;
+            padding: 15px;
+            font-size: 13px;
+            color: #4b5563;
+        }
+
+        td {
+            padding: 15px;
+            border-top: 1px solid #e5e7eb;
+            font-size: 14px;
+        }
+
+        .status {
+            padding: 6px 11px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .verified {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .rejected {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .verify-btn {
+            text-decoration: none;
+            background: #2563eb;
+            color: white;
+            padding: 8px 13px;
+            border-radius: 6px;
+            font-size: 12px;
+        }
+
+        .verify-btn:hover {
+            background: #1d4ed8;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 35px;
+            color: #6b7280;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="navbar">
+
+    <div class="logo">
+        FinCore
+    </div>
+
+    <a href="/" class="back-btn">
+        Dashboard
+    </a>
+
+</div>
+
+
+<div class="container">
+
+
+    <div class="header">
+
+        <h1>KYC Verification</h1>
+
+        <p>
+            Review customer KYC details and update verification status.
+        </p>
+
+    </div>
+
+
+    <div class="search-box">
+
+        <form method="GET">
+
+            <input
+                type="text"
+                name="search"
+                value="{{ search }}"
+                placeholder="Search by Customer ID, Name or Phone"
+            >
+
+            <button
+                type="submit"
+                class="search-btn"
+            >
+                Search
+            </button>
+
+        </form>
+
+    </div>
+
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Customer ID</th>
+
+                    <th>Name</th>
+
+                    <th>Phone</th>
+
+                    <th>KYC Type</th>
+
+                    <th>KYC Number</th>
+
+                    <th>Status</th>
+
+                    <th>Action</th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for customer in customers %}
+
+                <tr>
+
+                    <td>
+                        {{ customer.customer_id }}
+                    </td>
+
+                    <td>
+                        {{ customer.full_name }}
+                    </td>
+
+                    <td>
+                        {{ customer.phone }}
+                    </td>
+
+                    <td>
+                        {{ customer.kyc_type|default:"-" }}
+                    </td>
+
+                    <td>
+                        {{ customer.kyc_number|default:"-" }}
+                    </td>
+
+                    <td>
+
+                        {% if customer.kyc_status == "Verified" %}
+
+                            <span class="status verified">
+                                Verified
+                            </span>
+
+                        {% elif customer.kyc_status == "Rejected" %}
+
+                            <span class="status rejected">
+                                Rejected
+                            </span>
+
+                        {% else %}
+
+                            <span class="status pending">
+                                Pending
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+                    <td>
+
+                        <a
+                            href="{% url 'kyc_update' customer.id %}"
+                            class="verify-btn"
+                        >
+                            Review
+                        </a>
+
+                    </td>
+
+                </tr>
+
+                {% empty %}
+
+                <tr>
+
+                    <td
+                        colspan="7"
+                        class="empty"
+                    >
+                        No customer records found.
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+</div>
+
+
+</body>
+
+</html>

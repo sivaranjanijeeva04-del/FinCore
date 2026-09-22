@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Customers | FinCore</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f7fb;
+            min-height: 100vh;
+        }
+
+        /* Header */
+
+        .header {
+            background: #172554;
+            color: white;
+            padding: 20px 50px;
+        }
+
+        .header h1 {
+            font-size: 24px;
+        }
+
+        .header p {
+            margin-top: 5px;
+            color: #cbd5e1;
+            font-size: 14px;
+        }
+
+        /* Main Container */
+
+        .container {
+            max-width: 1250px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        /* Top Section */
+
+        .top-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .top-section h2 {
+            color: #172554;
+            font-size: 26px;
+        }
+
+        .top-section p {
+            color: #64748b;
+            margin-top: 6px;
+            font-size: 14px;
+        }
+
+        /* Register Button */
+
+        .register-btn {
+            background: #2563eb;
+            color: white;
+            text-decoration: none;
+            padding: 12px 20px;
+            border-radius: 7px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .register-btn:hover {
+            background: #1d4ed8;
+        }
+
+        /* Table Card */
+
+        .table-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            overflow-x: auto;
+        }
+
+        /* Search */
+
+        .search-form {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 12px 14px;
+            border: 1px solid #cbd5e1;
+            border-radius: 7px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .search-input:focus {
+            border-color: #2563eb;
+        }
+
+        .search-btn {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 12px 22px;
+            border-radius: 7px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .search-btn:hover {
+            background: #1d4ed8;
+        }
+
+        /* Table */
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 1000px;
+        }
+
+        th {
+            background: #f1f5f9;
+            color: #334155;
+            padding: 14px;
+            text-align: left;
+            font-size: 13px;
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 14px;
+            border-bottom: 1px solid #e2e8f0;
+            color: #475569;
+            font-size: 14px;
+        }
+
+        tr:hover {
+            background: #f8fafc;
+        }
+
+        /* Customer ID */
+
+        .customer-id {
+            color: #1d4ed8;
+            font-weight: bold;
+        }
+
+        /* KYC Status */
+
+        .status {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            display: inline-block;
+        }
+
+        .verified {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .pending {
+            background: #fef3c7;
+            color: #b45309;
+        }
+
+        .rejected {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        /* Action Buttons */
+
+        .edit-btn {
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: bold;
+            margin-right: 12px;
+        }
+
+        .edit-btn:hover {
+            text-decoration: underline;
+        }
+
+        .delete-btn {
+            color: #dc2626;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .delete-btn:hover {
+            text-decoration: underline;
+        }
+
+        /* Empty State */
+
+        .empty {
+            text-align: center;
+            padding: 50px 20px;
+            color: #64748b;
+        }
+
+        .empty h3 {
+            color: #334155;
+            margin-bottom: 8px;
+        }
+
+        /* Mobile */
+
+        @media (max-width: 700px) {
+
+            .header {
+                padding: 20px;
+            }
+
+            .container {
+                margin-top: 25px;
+            }
+
+            .top-section {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .search-form {
+                flex-direction: column;
+            }
+
+            .search-btn {
+                width: 100%;
+            }
+
+            .table-card {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header -->
+
+    <div class="header">
+
+        <h1>FinCore</h1>
+
+        <p>
+            Financial Operations Management System
+        </p>
+
+    </div>
+
+
+    <!-- Main Container -->
+
+    <div class="container">
+
+        <!-- Page Header -->
+
+        <div class="top-section">
+
+            <div>
+
+                <h2>
+                    Customer Management
+                </h2>
+
+                <p>
+                    View and manage registered customers.
+                </p>
+
+            </div>
+
+
+            <a href="{% url 'customer_register' %}"
+               class="register-btn">
+
+                + Register Customer
+
+            </a>
+
+        </div>
+
+
+        <!-- Table Card -->
+
+        <div class="table-card">
+
+
+            <!-- Search Form -->
+
+            <form method="GET"
+                  class="search-form">
+
+                <input
+                    type="text"
+                    name="search"
+                    value="{{ search }}"
+                    class="search-input"
+                    placeholder="Search by Customer ID, Name or Phone..."
+                >
+
+                <button
+                    type="submit"
+                    class="search-btn">
+
+                    Search
+
+                </button>
+
+            </form>
+
+
+            <!-- Customer Table -->
+
+            {% if customers %}
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Customer ID
+                        </th>
+
+                        <th>
+                            Full Name
+                        </th>
+
+                        <th>
+                            Phone
+                        </th>
+
+                        <th>
+                            Email
+                        </th>
+
+                        <th>
+                            City
+                        </th>
+
+                        <th>
+                            KYC Type
+                        </th>
+
+                        <th>
+                            KYC Status
+                        </th>
+
+                        <th>
+                            Actions
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    {% for customer in customers %}
+
+                    <tr>
+
+                        <!-- Customer ID -->
+
+                        <td class="customer-id">
+
+                            {{ customer.customer_id }}
+
+                        </td>
+
+
+                        <!-- Name -->
+
+                        <td>
+
+                            {{ customer.full_name }}
+
+                        </td>
+
+
+                        <!-- Phone -->
+
+                        <td>
+
+                            {{ customer.phone }}
+
+                        </td>
+
+
+                        <!-- Email -->
+
+                        <td>
+
+                            {{ customer.email|default:"-" }}
+
+                        </td>
+
+
+                        <!-- City -->
+
+                        <td>
+
+                            {{ customer.city|default:"-" }}
+
+                        </td>
+
+
+                        <!-- KYC Type -->
+
+                        <td>
+
+                            {{ customer.kyc_type|default:"-" }}
+
+                        </td>
+
+
+                        <!-- KYC Status -->
+
+                        <td>
+
+                            {% if customer.kyc_status == "Verified" %}
+
+                                <span class="status verified">
+
+                                    Verified
+
+                                </span>
+
+                            {% elif customer.kyc_status == "Rejected" %}
+
+                                <span class="status rejected">
+
+                                    Rejected
+
+                                </span>
+
+                            {% else %}
+
+                                <span class="status pending">
+
+                                    Pending
+
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+
+                        <!-- Actions -->
+
+                        <td>
+
+                            <a
+                                href="{% url 'customer_edit' customer.id %}"
+                                class="edit-btn">
+
+                                Edit
+
+                            </a>
+
+
+                            <a
+                                href="{% url 'customer_delete' customer.id %}"
+                                class="delete-btn">
+
+                                Delete
+
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+
+            {% else %}
+
+                <!-- Empty State -->
+
+                <div class="empty">
+
+                    <h3>
+                        No Customers Found
+                    </h3>
+
+                    <p>
+                        Register your first customer to see them here.
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</body>
+</html>

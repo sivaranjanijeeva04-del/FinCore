@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>FinCore | Financial Operations</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f8fafc;
+            color: #1f2937;
+        }
+
+        /* NAVBAR */
+
+        .navbar {
+            background: #111827;
+            color: white;
+
+            padding: 18px 50px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 23px;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: white;
+
+            padding: 9px 15px;
+
+            border-radius: 7px;
+
+            font-size: 13px;
+        }
+
+        .login-btn {
+            background: #2563eb;
+        }
+
+        .signup-btn {
+            background: #374151;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.9;
+        }
+
+        /* HERO */
+
+        .hero {
+            max-width: 1200px;
+
+            margin: 0 auto;
+
+            padding: 90px 25px;
+
+            display: grid;
+
+            grid-template-columns: 1.2fr 0.8fr;
+
+            gap: 60px;
+
+            align-items: center;
+        }
+
+        .hero-content h1 {
+            font-size: 48px;
+
+            line-height: 1.15;
+
+            margin-bottom: 20px;
+        }
+
+        .hero-content h1 span {
+            color: #2563eb;
+        }
+
+        .hero-content p {
+            color: #6b7280;
+
+            font-size: 17px;
+
+            line-height: 1.7;
+
+            max-width: 650px;
+
+            margin-bottom: 30px;
+        }
+
+        .hero-buttons {
+            display: flex;
+
+            gap: 12px;
+        }
+
+        .primary-btn {
+            text-decoration: none;
+
+            background: #2563eb;
+
+            color: white;
+
+            padding: 13px 22px;
+
+            border-radius: 8px;
+
+            font-weight: bold;
+
+            font-size: 14px;
+        }
+
+        .secondary-btn {
+            text-decoration: none;
+
+            background: #e5e7eb;
+
+            color: #374151;
+
+            padding: 13px 22px;
+
+            border-radius: 8px;
+
+            font-weight: bold;
+
+            font-size: 14px;
+        }
+
+        /* HERO CARD */
+
+        .hero-card {
+            background: white;
+
+            padding: 30px;
+
+            border-radius: 15px;
+
+            box-shadow:
+                0 10px 30px rgba(0,0,0,0.08);
+        }
+
+        .hero-card h2 {
+            margin-bottom: 20px;
+
+            font-size: 20px;
+        }
+
+        .mini-card {
+            background: #f8fafc;
+
+            padding: 16px;
+
+            border-radius: 9px;
+
+            margin-bottom: 12px;
+        }
+
+        .mini-card small {
+            display: block;
+
+            color: #6b7280;
+
+            margin-bottom: 5px;
+        }
+
+        .mini-card strong {
+            font-size: 19px;
+        }
+
+        /* FEATURES */
+
+        .features {
+            background: white;
+
+            padding: 70px 25px;
+        }
+
+        .section {
+            max-width: 1200px;
+
+            margin: auto;
+        }
+
+        .section-title {
+            text-align: center;
+
+            margin-bottom: 40px;
+        }
+
+        .section-title h2 {
+            font-size: 30px;
+
+            margin-bottom: 10px;
+        }
+
+        .section-title p {
+            color: #6b7280;
+        }
+
+        .feature-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 22px;
+        }
+
+        .feature-card {
+            border: 1px solid #e5e7eb;
+
+            padding: 25px;
+
+            border-radius: 11px;
+        }
+
+        .feature-card h3 {
+            margin-bottom: 10px;
+
+            font-size: 17px;
+        }
+
+        .feature-card p {
+            color: #6b7280;
+
+            font-size: 14px;
+
+            line-height: 1.6;
+        }
+
+        /* FOOTER */
+
+        footer {
+            background: #111827;
+
+            color: #d1d5db;
+
+            text-align: center;
+
+            padding: 25px;
+
+            font-size: 13px;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 850px) {
+
+            .navbar {
+                padding: 16px 20px;
+            }
+
+            .hero {
+                grid-template-columns: 1fr;
+
+                padding: 60px 20px;
+            }
+
+            .hero-content h1 {
+                font-size: 38px;
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+        @media (max-width: 500px) {
+
+            .nav-links a {
+                padding: 8px 10px;
+            }
+
+            .hero-content h1 {
+                font-size: 32px;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- NAVBAR -->
+
+<div class="navbar">
+
+    <div class="logo">
+        FinCore
+    </div>
+
+
+    <div class="nav-links">
+
+    {% if user.is_authenticated %}
+
+        <a
+            href="/dashboard/"
+            class="login-btn"
+        >
+            Dashboard
+        </a>
+
+        <a
+            href="/auth/logout/"
+            class="signup-btn"
+        >
+            Logout
+        </a>
+
+    {% else %}
+
+        <a
+            href="/auth/login/"
+            class="login-btn"
+        >
+            Login
+        </a>
+
+        <a
+            href="/auth/signup/"
+            class="signup-btn"
+        >
+            Sign Up
+        </a>
+
+    {% endif %}
+
+</div>
+
+</div>
+
+
+<!-- HERO -->
+
+<section class="hero">
+
+
+    <div class="hero-content">
+
+        <h1>
+            Smarter
+            <span>Financial Operations</span>
+            Management
+        </h1>
+
+
+        <p>
+            FinCore is a financial operations management
+            system designed to manage customers, KYC,
+            financial accounts, transactions and reports
+            through one centralized platform.
+        </p>
+
+
+        <div class="hero-buttons">
+
+    {% if user.is_authenticated %}
+
+        <a
+            href="/dashboard/"
+            class="primary-btn"
+        >
+            Go to Dashboard
+        </a>
+
+    {% else %}
+
+        <a
+            href="/auth/login/"
+            class="primary-btn"
+        >
+            Get Started
+        </a>
+
+        <a
+            href="/auth/signup/"
+            class="secondary-btn"
+        >
+            Create Account
+        </a>
+
+    {% endif %}
+
+</div>
+
+    </div>
+
+
+    <!-- DASHBOARD PREVIEW -->
+
+    <div class="hero-card">
+
+        <h2>
+            FinCore Overview
+        </h2>
+
+
+        <div class="mini-card">
+
+            <small>
+                Customer Management
+            </small>
+
+            <strong>
+                Customer & KYC
+            </strong>
+
+        </div>
+
+
+        <div class="mini-card">
+
+            <small>
+                Financial Accounts
+            </small>
+
+            <strong>
+                Account Management
+            </strong>
+
+        </div>
+
+
+        <div class="mini-card">
+
+            <small>
+                Transactions
+            </small>
+
+            <strong>
+                Deposit • Withdrawal • Transfer
+            </strong>
+
+        </div>
+
+
+        <div class="mini-card">
+
+            <small>
+                Reports
+            </small>
+
+            <strong>
+                Financial Insights
+            </strong>
+
+        </div>
+
+    </div>
+
+
+</section>
+
+
+<!-- FEATURES -->
+
+<section class="features">
+
+    <div class="section">
+
+
+        <div class="section-title">
+
+            <h2>
+                Core Features
+            </h2>
+
+            <p>
+                Everything required for financial operations management.
+            </p>
+
+        </div>
+
+
+        <div class="feature-grid">
+
+
+            <div class="feature-card">
+
+                <h3>
+                    Customer Management
+                </h3>
+
+                <p>
+                    Register, search and manage customer
+                    information through a centralized system.
+                </p>
+
+            </div>
+
+
+            <div class="feature-card">
+
+                <h3>
+                    KYC Verification
+                </h3>
+
+                <p>
+                    Review customer KYC information and
+                    maintain Pending, Verified and Rejected statuses.
+                </p>
+
+            </div>
+
+
+            <div class="feature-card">
+
+                <h3>
+                    Account Management
+                </h3>
+
+                <p>
+                    Create and manage financial accounts
+                    with account status and balance tracking.
+                </p>
+
+            </div>
+
+
+            <div class="feature-card">
+
+                <h3>
+                    Transactions
+                </h3>
+
+                <p>
+                    Process deposits, withdrawals and
+                    transfers with transaction validation.
+                </p>
+
+            </div>
+
+
+            <div class="feature-card">
+
+                <h3>
+                    Account Statements
+                </h3>
+
+                <p>
+                    View account balances and complete
+                    transaction history in statement format.
+                </p>
+
+            </div>
+
+
+            <div class="feature-card">
+
+                <h3>
+                    Financial Reports
+                </h3>
+
+                <p>
+                    View successful transaction summaries
+                    with different reporting periods.
+                </p>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- FOOTER -->
+
+<footer>
+
+    © 2026 FinCore.
+    Financial Operations Management System.
+
+</footer>
+
+
+</body>
+
+</html>

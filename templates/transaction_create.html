@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>New Transaction | FinCore</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f7fb;
+            color: #1f2937;
+        }
+
+        .navbar {
+            background: #111827;
+            color: white;
+            padding: 18px 35px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            color: white;
+            background: #374151;
+            padding: 9px 16px;
+            border-radius: 7px;
+            font-size: 13px;
+        }
+
+        .container {
+            max-width: 750px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+
+            box-shadow:
+                0 4px 15px rgba(0,0,0,0.07);
+        }
+
+        h1 {
+            font-size: 27px;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #6b7280;
+            margin-bottom: 25px;
+        }
+
+        /* INFORMATION BOX */
+
+        .info-box {
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            color: #1e40af;
+
+            padding: 16px 20px;
+
+            border-radius: 8px;
+
+            margin-bottom: 25px;
+
+            font-size: 13px;
+        }
+
+        .info-box strong {
+            display: block;
+
+            margin-bottom: 10px;
+
+            font-size: 14px;
+        }
+
+        .info-box ul {
+            margin-left: 18px;
+        }
+
+        .info-box li {
+            margin-bottom: 6px;
+        }
+
+        /* FORM */
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+
+            font-size: 14px;
+
+            font-weight: bold;
+
+            margin-bottom: 8px;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+
+            padding: 12px;
+
+            border: 1px solid #d1d5db;
+
+            border-radius: 7px;
+
+            font-size: 14px;
+
+            outline: none;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #2563eb;
+        }
+
+        textarea {
+            resize: vertical;
+        }
+
+        .help-text {
+            font-size: 12px;
+
+            color: #6b7280;
+
+            margin-top: 5px;
+        }
+
+        .errorlist {
+            color: #dc2626;
+
+            font-size: 13px;
+
+            margin-bottom: 8px;
+
+            list-style: none;
+        }
+
+        .non-field-errors {
+            background: #fee2e2;
+
+            color: #991b1b;
+
+            padding: 12px;
+
+            border-radius: 7px;
+
+            margin-bottom: 20px;
+
+            font-size: 13px;
+        }
+
+        /* BUTTONS */
+
+        .buttons {
+            display: flex;
+
+            gap: 12px;
+
+            margin-top: 25px;
+        }
+
+        .submit-btn {
+            border: none;
+
+            background: #2563eb;
+
+            color: white;
+
+            padding: 12px 22px;
+
+            border-radius: 7px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+        .submit-btn:hover {
+            background: #1d4ed8;
+        }
+
+        .cancel-btn {
+            text-decoration: none;
+
+            background: #e5e7eb;
+
+            color: #374151;
+
+            padding: 12px 22px;
+
+            border-radius: 7px;
+
+            font-weight: bold;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 600px) {
+
+            .container {
+                margin-top: 25px;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+
+            .submit-btn,
+            .cancel-btn {
+                text-align: center;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- NAVBAR -->
+
+<div class="navbar">
+
+    <div class="logo">
+        FinCore
+    </div>
+
+    <a
+        href="/"
+        class="back-btn"
+    >
+        Dashboard
+    </a>
+
+</div>
+
+
+<!-- MAIN -->
+
+<div class="container">
+
+    <div class="card">
+
+
+        <h1>
+            New Transaction
+        </h1>
+
+        <p class="subtitle">
+            Process deposits, withdrawals and fund transfers.
+        </p>
+
+
+        <!-- TRANSACTION INFORMATION -->
+
+        <div class="info-box">
+
+            <strong>
+                Transaction Guidelines
+            </strong>
+
+            <ul>
+
+                <li>
+                    Deposit: Amount will be added to the selected account.
+                </li>
+
+                <li>
+                    Withdrawal: Amount will be deducted from the selected account.
+                </li>
+
+                <li>
+                    Transfer: Destination account is required.
+                </li>
+
+                <li>
+                    Only active accounts can perform transactions.
+                </li>
+
+                <li>
+                    Balance changes occur only for successful transactions.
+                </li>
+
+            </ul>
+
+        </div>
+
+
+        <!-- FORM -->
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+
+            <!-- FORM ERRORS -->
+
+            {% if form.non_field_errors %}
+
+                <div class="non-field-errors">
+
+                    {{ form.non_field_errors }}
+
+                </div>
+
+            {% endif %}
+
+
+            <!-- TRANSACTION ID -->
+
+            <div class="form-group">
+
+                <label>
+                    Transaction ID
+                </label>
+
+                {{ form.transaction_id }}
+
+                {% if form.transaction_id.errors %}
+                    {{ form.transaction_id.errors }}
+                {% endif %}
+
+            </div>
+
+
+            <!-- SOURCE ACCOUNT -->
+
+            <div class="form-group">
+
+                <label>
+                    Source Account
+                </label>
+
+                {{ form.account }}
+
+                {% if form.account.errors %}
+                    {{ form.account.errors }}
+                {% endif %}
+
+            </div>
+
+
+            <!-- DESTINATION ACCOUNT -->
+
+            <div class="form-group">
+
+                <label>
+                    Destination Account
+                </label>
+
+                {{ form.to_account }}
+
+                <div class="help-text">
+                    Required only for Transfer transactions.
+                </div>
+
+                {% if form.to_account.errors %}
+                    {{ form.to_account.errors }}
+                {% endif %}
+
+            </div>
+
+
+            <!-- TRANSACTION TYPE -->
+
+            <div class="form-group">
+
+                <label>
+                    Transaction Type
+                </label>
+
+                {{ form.transaction_type }}
+
+                {% if form.transaction_type.errors %}
+                    {{ form.transaction_type.errors }}
+                {% endif %}
+
+            </div>
+
+
+            <!-- AMOUNT -->
+
+            <div class="form-group">
+
+                <label>
+                    Amount
+                </label>
+
+                {{ form.amount }}
+
+                {% if form.amount.errors %}
+                    {{ form.amount.errors }}
+                {% endif %}
+
+            </div>
+
+
+            <!-- DESCRIPTION -->
+
+            <div class="form-group">
+
+                <label>
+                    Description
+                </label>
+
+                {{ form.description }}
+
+                {% if form.description.errors %}
+                    {{ form.description.errors }}
+                {% endif %}
+
+            </div>
+
+
+            <!-- STATUS -->
+
+            <div class="form-group">
+
+                <label>
+                    Transaction Status
+                </label>
+
+                {{ form.transaction_status }}
+
+                {% if form.transaction_status.errors %}
+                    {{ form.transaction_status.errors }}
+                {% endif %}
+
+            </div>
+
+
+            <!-- BUTTONS -->
+
+            <div class="buttons">
+
+                <button
+                    type="submit"
+                    class="submit-btn"
+                >
+                    Process Transaction
+                </button>
+
+
+                <a
+                    href="/transactions/list/"
+                    class="cancel-btn"
+                >
+                    Cancel
+                </a>
+
+            </div>
+
+
+        </form>
+
+    </div>
+
+</div>
+
+
+</body>
+
+</html>

@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>FinCore - Customer Registration</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f6f9;
+            color: #222;
+        }
+
+        .navbar {
+            background: #172033;
+            color: white;
+            padding: 18px 35px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .back-link {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .container {
+            max-width: 950px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 35px;
+            border-radius: 14px;
+
+            box-shadow:
+                0 5px 20px rgba(0, 0, 0, 0.07);
+        }
+
+        .header {
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 27px;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+
+            padding: 12px 14px;
+
+            border: 1px solid #d1d5db;
+
+            border-radius: 8px;
+
+            outline: none;
+
+            font-size: 14px;
+
+            background: white;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #2563eb;
+        }
+
+        .full-width {
+            grid-column: span 2;
+        }
+
+        .error-box {
+            background: #fee2e2;
+            color: #991b1b;
+
+            padding: 12px 15px;
+
+            border-radius: 8px;
+
+            margin-bottom: 20px;
+
+            font-size: 14px;
+        }
+
+        .field-error {
+            color: #dc2626;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .button-area {
+            margin-top: 30px;
+
+            display: flex;
+            justify-content: flex-end;
+
+            gap: 12px;
+        }
+
+        .cancel-btn,
+        .submit-btn {
+            padding: 12px 22px;
+
+            border-radius: 8px;
+
+            text-decoration: none;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            border: none;
+
+            cursor: pointer;
+        }
+
+        .cancel-btn {
+            background: #e5e7eb;
+            color: #374151;
+        }
+
+        .submit-btn {
+            background: #172033;
+            color: white;
+        }
+
+        .submit-btn:hover {
+            background: #25334d;
+        }
+
+        .cancel-btn:hover {
+            background: #d1d5db;
+        }
+
+        @media (max-width: 700px) {
+
+            .container {
+                margin: 20px auto;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .full-width {
+                grid-column: span 1;
+            }
+
+            .button-area {
+                flex-direction: column;
+            }
+
+            .cancel-btn,
+            .submit-btn {
+                width: 100%;
+                text-align: center;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- NAVBAR -->
+
+    <div class="navbar">
+
+        <div class="logo">
+            FinCore
+        </div>
+
+        <a href="/" class="back-link">
+            ← Dashboard
+        </a>
+
+    </div>
+
+
+    <!-- MAIN -->
+
+    <div class="container">
+
+        <div class="card">
+
+
+            <div class="header">
+
+                <h1>
+                    Customer Registration
+                </h1>
+
+                <p>
+                    Register a new customer and provide
+                    the required KYC information.
+                </p>
+
+            </div>
+
+
+            <!-- FORM ERRORS -->
+
+            {% if form.non_field_errors %}
+
+                <div class="error-box">
+
+                    {% for error in form.non_field_errors %}
+
+                        <div>
+                            {{ error }}
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+            {% endif %}
+
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+
+                <div class="form-grid">
+
+
+                    <!-- CUSTOMER ID -->
+
+                    <div class="form-group">
+
+                        <label>
+                            Customer ID
+                        </label>
+
+                        {{ form.customer_id }}
+
+                        {% for error in form.customer_id.errors %}
+
+                            <div class="field-error">
+                                {{ error }}
+                            </div>
+
+                        {% endfor %}
+
+                    </div>
+
+
+                    <!-- FULL NAME -->
+
+                    <div class="form-group">
+
+                        <label>
+                            Full Name
+                        </label>
+
+                        {{ form.full_name }}
+
+                        {% for error in form.full_name.errors %}
+
+                            <div class="field-error">
+                                {{ error }}
+                            </div>
+
+                        {% endfor %}
+
+                    </div>
+
+
+                    <!-- DATE OF BIRTH -->
+
+                    <div class="form-group">
+
+                        <label>
+                            Date of Birth
+                        </label>
+
+                        {{ form.date_of_birth }}
+
+                    </div>
+
+
+                    <!-- GENDER -->
+
+                    <div class="form-group">
+
+                        <label>
+                            Gender
+                        </label>
+
+                        {{ form.gender }}
+
+                    </div>
+
+
+                    <!-- PHONE -->
+
+                    <div class="form-group">
+
+                        <label>
+                            Phone Number
+                        </label>
+
+                        {{ form.phone }}
+
+                    </div>
+
+
+                    <!-- EMAIL -->
+
+                    <div class="form-group">
+
+                        <label>
+                            Email Address
+                        </label>
+
+                        {{ form.email }}
+
+                    </div>
+
+
+                    <!-- ADDRESS -->
+
+                    <div class="form-group full-width">
+
+                        <label>
+                            Address
+                        </label>
+
+                        {{ form.address }}
+
+                    </div>
+
+
+                    <!-- CITY -->
+
+                    <div class="form-group">
+
+                        <label>
+                            City
+                        </label>
+
+                        {{ form.city }}
+
+                    </div>
+
+
+                    <!-- STATE -->
+
+                    <div class="form-group">
+
+                        <label>
+                            State
+                        </label>
+
+                        {{ form.state }}
+
+                    </div>
+
+
+                    <!-- POSTAL CODE -->
+
+                    <div class="form-group">
+
+                        <label>
+                            Postal Code
+                        </label>
+
+                        {{ form.postal_code }}
+
+                    </div>
+
+
+                    <!-- KYC TYPE -->
+
+                    <div class="form-group">
+
+                        <label>
+                            KYC Document Type
+                        </label>
+
+                        {{ form.kyc_type }}
+
+                    </div>
+
+
+                    <!-- KYC NUMBER -->
+
+                    <div class="form-group">
+
+                        <label>
+                            KYC Number
+                        </label>
+
+                        {{ form.kyc_number }}
+
+                    </div>
+
+
+                    <!-- KYC STATUS -->
+
+                    <div class="form-group">
+
+                        <label>
+                            KYC Status
+                        </label>
+
+                        {{ form.kyc_status }}
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- BUTTONS -->
+
+                <div class="button-area">
+
+                    <a
+                        href="/"
+                        class="cancel-btn"
+                    >
+                        Cancel
+                    </a>
+
+
+                    <button
+                        type="submit"
+                        class="submit-btn"
+                    >
+                        Register Customer
+                    </button>
+
+                </div>
+
+
+            </form>
+
+
+        </div>
+
+    </div>
+
+
+</body>
+
+</html>

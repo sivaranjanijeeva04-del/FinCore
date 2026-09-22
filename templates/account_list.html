@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Account List | FinCore</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f7fb;
+            color: #1f2937;
+        }
+
+        /* NAVBAR */
+
+        .navbar {
+            background: #111827;
+            color: white;
+
+            padding: 18px 35px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            color: white;
+            background: #374151;
+
+            padding: 9px 16px;
+
+            border-radius: 7px;
+
+            font-size: 13px;
+        }
+
+        .back-btn:hover {
+            background: #4b5563;
+        }
+
+        /* CONTAINER */
+
+        .container {
+            max-width: 1200px;
+
+            margin: 40px auto;
+
+            padding: 0 20px;
+        }
+
+        /* HEADER */
+
+        .header {
+            margin-bottom: 25px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #6b7280;
+        }
+
+        /* SEARCH */
+
+        .search-box {
+            background: white;
+
+            padding: 20px;
+
+            border-radius: 10px;
+
+            margin-bottom: 25px;
+
+            box-shadow:
+                0 3px 12px rgba(0,0,0,0.06);
+        }
+
+        .search-box form {
+            display: flex;
+            gap: 10px;
+        }
+
+        .search-box input {
+            flex: 1;
+
+            padding: 12px;
+
+            border: 1px solid #d1d5db;
+
+            border-radius: 7px;
+
+            outline: none;
+
+            font-size: 14px;
+        }
+
+        .search-box input:focus {
+            border-color: #2563eb;
+        }
+
+        .search-btn {
+            border: none;
+
+            background: #2563eb;
+
+            color: white;
+
+            padding: 12px 20px;
+
+            border-radius: 7px;
+
+            cursor: pointer;
+
+            font-weight: bold;
+        }
+
+        .search-btn:hover {
+            background: #1d4ed8;
+        }
+
+        /* TABLE */
+
+        .table-container {
+            background: white;
+
+            border-radius: 10px;
+
+            overflow-x: auto;
+
+            box-shadow:
+                0 3px 12px rgba(0,0,0,0.06);
+        }
+
+        table {
+            width: 100%;
+
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #f9fafb;
+
+            text-align: left;
+
+            padding: 15px;
+
+            font-size: 13px;
+
+            color: #4b5563;
+
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 15px;
+
+            border-top: 1px solid #e5e7eb;
+
+            font-size: 14px;
+
+            white-space: nowrap;
+        }
+
+        tr:hover {
+            background: #fafafa;
+        }
+
+        /* KYC STATUS */
+
+        .status {
+            display: inline-block;
+
+            padding: 6px 11px;
+
+            border-radius: 20px;
+
+            font-size: 12px;
+
+            font-weight: bold;
+        }
+
+        .verified {
+            background: #dcfce7;
+
+            color: #166534;
+        }
+
+        .pending {
+            background: #fef3c7;
+
+            color: #92400e;
+        }
+
+        .rejected {
+            background: #fee2e2;
+
+            color: #991b1b;
+        }
+
+        /* ACCOUNT STATUS */
+
+        .account-active {
+            background: #dcfce7;
+
+            color: #166534;
+        }
+
+        .account-inactive {
+            background: #fef3c7;
+
+            color: #92400e;
+        }
+
+        .account-closed {
+            background: #fee2e2;
+
+            color: #991b1b;
+        }
+
+        /* EMPTY */
+
+        .empty {
+            text-align: center;
+
+            padding: 35px;
+
+            color: #6b7280;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 700px) {
+
+            .navbar {
+                padding: 15px 20px;
+            }
+
+            .container {
+                margin-top: 25px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .search-box form {
+                flex-direction: column;
+            }
+
+            .search-btn {
+                width: 100%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- NAVBAR -->
+
+<div class="navbar">
+
+    <div class="logo">
+        FinCore
+    </div>
+
+    <a
+        href="/"
+        class="back-btn"
+    >
+        Dashboard
+    </a>
+
+</div>
+
+
+<!-- MAIN CONTAINER -->
+
+<div class="container">
+
+
+    <!-- HEADER -->
+
+    <div class="header">
+
+    <div style="
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+    ">
+
+        <div>
+
+            <h1>Financial Accounts</h1>
+
+            <p>
+                View and manage customer financial accounts.
+            </p>
+
+        </div>
+
+        <a
+            href="/accounts/register/"
+            style="
+                text-decoration: none;
+                background: #2563eb;
+                color: white;
+                padding: 11px 18px;
+                border-radius: 7px;
+                font-size: 13px;
+                font-weight: bold;
+            "
+        >
+            + Open New Account
+        </a>
+
+    </div>
+
+</div>
+
+
+    <!-- SEARCH -->
+
+    <div class="search-box">
+
+        <form method="GET">
+
+            <input
+                type="text"
+                name="search"
+                value="{{ search }}"
+                placeholder="Search by Account Number, Customer ID or Name"
+            >
+
+            <button
+                type="submit"
+                class="search-btn"
+            >
+                Search
+            </button>
+
+        </form>
+
+    </div>
+
+
+    <!-- ACCOUNT TABLE -->
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Account Number
+                    </th>
+
+                    <th>
+                        Customer
+                    </th>
+
+                    <th>
+                        Account Type
+                    </th>
+
+                    <th>
+                        Balance
+                    </th>
+
+                    <th>
+                        KYC Status
+                    </th>
+
+                    <th>
+                        Account Status
+                    </th>
+
+                    <th>
+                        Opened Date
+                    </th>
+
+                    <th>
+                        Statement
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for account in accounts %}
+
+                <tr>
+
+
+                    <!-- ACCOUNT NUMBER -->
+
+                    <td>
+                        <strong>
+                            {{ account.account_number }}
+                        </strong>
+                    </td>
+
+
+                    <!-- CUSTOMER -->
+
+                    <td>
+
+                        {{ account.customer.full_name }}
+
+                        <br>
+
+                        <small style="color:#6b7280;">
+                            {{ account.customer.customer_id }}
+                        </small>
+
+                    </td>
+
+
+                    <!-- ACCOUNT TYPE -->
+
+                    <td>
+                        {{ account.account_type }}
+                    </td>
+
+
+                    <!-- BALANCE -->
+
+                    <td>
+
+                        <strong>
+                            ₹ {{ account.balance }}
+                        </strong>
+
+                    </td>
+
+
+                    <!-- KYC STATUS -->
+
+                    <td>
+
+                        {% if account.customer.kyc_status == "Verified" %}
+
+                            <span class="status verified">
+                                Verified
+                            </span>
+
+                        {% elif account.customer.kyc_status == "Rejected" %}
+
+                            <span class="status rejected">
+                                Rejected
+                            </span>
+
+                        {% else %}
+
+                            <span class="status pending">
+                                Pending
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+
+                    <!-- ACCOUNT STATUS -->
+
+                    <td>
+
+                        {% if account.account_status == "Active" %}
+
+                            <span class="status account-active">
+                                Active
+                            </span>
+
+                        {% elif account.account_status == "Inactive" %}
+
+                            <span class="status account-inactive">
+                                Inactive
+                            </span>
+
+                        {% else %}
+
+                            <span class="status account-closed">
+                                Closed
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+
+                    <!-- OPENED DATE -->
+
+                    <td>
+
+                        {{ account.opened_date|date:"d M Y" }}
+
+                    </td>
+
+                    <td>
+
+    <a
+        href="{% url 'account_statement' account.id %}"
+        style="
+            text-decoration: none;
+            background: #2563eb;
+            color: white;
+            padding: 7px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: bold;
+        "
+    >
+        View Statement
+    </a>
+
+</td>
+
+
+                </tr>
+
+
+                {% empty %}
+
+                <tr>
+
+                    <td
+                        colspan="8"
+                        class="empty"
+                    >
+
+                        No financial accounts found.
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+</div>
+
+
+</body>
+
+</html>
