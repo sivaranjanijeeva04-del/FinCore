@@ -2,14 +2,27 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 
 
 def login_view(request):
 
     if request.method == "POST":
 
-        username = request.POST.get("username")
-        password = request.POST.get("password")
+        username = request.POST.get("username", "").strip()
+        password = request.POST.get("password", "")
+
+        if not username or not password:
+
+            messages.error(
+                request,
+                "Please enter username and password."
+            )
+
+            return render(
+                request,
+                "login.html"
+            )
 
         user = authenticate(
             request,
@@ -19,16 +32,26 @@ def login_view(request):
 
         if user is not None:
 
+            if not user.is_active:
+
+                messages.error(
+                    request,
+                    "Your account is inactive."
+                )
+
+                return render(
+                    request,
+                    "login.html"
+                )
+
             login(request, user)
 
             return redirect("dashboard_home")
 
-        else:
-
-            messages.error(
-                request,
-                "Invalid username or password."
-            )
+        messages.error(
+            request,
+            "Invalid username or password."
+        )
 
     return render(
         request,
@@ -40,12 +63,37 @@ def signup_view(request):
 
     if request.method == "POST":
 
-        username = request.POST.get("username")
-        email = request.POST.get("email")
-        password = request.POST.get("password")
-        confirm_password = request.POST.get(
-            "confirm_password"
+        username = request.POST.get(
+            "username",
+            ""
+        ).strip()
+
+        email = request.POST.get(
+            "email",
+            ""
+        ).strip()
+
+        password = request.POST.get(
+            "password",
+            ""
         )
+
+        confirm_password = request.POST.get(
+            "confirm_password",
+            ""
+        )
+
+        if not username or not password or not confirm_password:
+
+            messages.error(
+                request,
+                "Please fill in all required fields."
+            )
+
+            return render(
+                request,
+                "signup.html"
+            )
 
         if password != confirm_password:
 
@@ -58,8 +106,6 @@ def signup_view(request):
                 request,
                 "signup.html"
             )
-
-        from django.contrib.auth.models import User
 
         if User.objects.filter(
             username=username
@@ -99,6 +145,11 @@ def signup_view(request):
 def logout_view(request):
 
     logout(request)
+
+    messages.success(
+        request,
+        "You have been logged out successfully."
+    )
 
     return redirect("login")
 
